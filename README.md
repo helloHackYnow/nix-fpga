@@ -38,7 +38,7 @@ Pin a commit and its tarball hash so builds are reproducible:
 { pkgs ? import <nixpkgs> { } }:
 let
   nixFpga = builtins.fetchTarball {
-    url = "https://github.com/USER/nix-fpga/archive/<COMMIT_SHA>.tar.gz";
+    url = "https://github.com/helloHackYnow/nix-fpga/archive/<COMMIT_SHA>.tar.gz";
     sha256 = "sha256-...";
   };
 in
@@ -52,7 +52,7 @@ Get the two values after pushing:
 
 ```sh
 git rev-parse HEAD
-nix-prefetch-url --unpack https://github.com/USER/nix-fpga/archive/<COMMIT_SHA>.tar.gz
+nix-prefetch-url --unpack https://github.com/helloHackYnow/nix-fpga/archive/<COMMIT_SHA>.tar.gz
 ```
 
 `mkEnv` accepts `name`, `selected`, `runScript`, `extraPkgs` and `vivadoPath`.
