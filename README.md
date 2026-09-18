@@ -54,10 +54,9 @@ Get the two values after pushing:
 # 1. the commit to pin
 COMMIT=$(git rev-parse HEAD)
 
-# 2. the unpacked-tarball hash as SRI (sha256-...); jq is optional
-nix store prefetch-file --json --unpack \
-  "https://github.com/helloHackYnow/nix-fpga/archive/$COMMIT.tar.gz" \
-  | jq -r .hash
+# 2. the unpacked-tarball hash as SRI (sha256-...);
+nix store prefetch-file --unpack \
+  "https://github.com/helloHackYnow/nix-fpga/archive/$COMMIT.tar.gz"
 ```
 
 `nix store prefetch-file` prints the modern `sha256-<base64>` (SRI) form that
