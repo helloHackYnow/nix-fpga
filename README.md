@@ -51,9 +51,24 @@ in
 Get the two values after pushing:
 
 ```sh
-git rev-parse HEAD
-nix-prefetch-url --unpack https://github.com/helloHackYnow/nix-fpga/archive/<COMMIT_SHA>.tar.gz
+# 1. the commit to pin
+COMMIT=$(git rev-parse HEAD)
+
+# 2. the unpacked-tarball hash as SRI (sha256-...); jq is optional
+nix store prefetch-file --json --unpack \
+  "https://github.com/helloHackYnow/nix-fpga/archive/$COMMIT.tar.gz" \
+  | jq -r .hash
 ```
+
+`nix store prefetch-file` prints the modern `sha256-<base64>` (SRI) form that
+`builtins.fetchTarball` expects. If you use the older
+`nix-prefetch-url --unpack` (which prints base32), convert it first:
+
+```sh
+nix hash convert --hash-algo sha256 --to sri <base32-hash>
+```
+
+The hash is tied to the commit: recompute it every time you bump the pin.
 
 `mkEnv` accepts `name`, `selected`, `runScript`, `extraPkgs` and `vivadoPath`.
 The sandbox is built from the caller's `pkgs`, so nixpkgs can be pinned by
